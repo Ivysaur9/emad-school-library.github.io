@@ -8,8 +8,50 @@ import BorrowModal from "./borrowModal";
 
 const { confirm } = Modal;
 const host = "https://emad-library.onrender.com";
-// const host = 'http://localhost:5500';
+// const host = "http://localhost:5500";
 
+export const bookClassList = [
+  {
+    value: "000",
+    label: "المعارف العامة",
+  },
+  {
+    value: "100",
+    label: "الفلسفة وعلم النفس",
+  },
+  {
+    value: "200",
+    label: "الديانات",
+  },
+  {
+    value: "300",
+    label: "العلوم الإجتماعية",
+  },
+  {
+    value: "400",
+    label: "اللغات",
+  },
+  {
+    value: "500",
+    label: "العلوم الطبيعية",
+  },
+  {
+    value: "600",
+    label: "العلوم التطبيقية",
+  },
+  {
+    value: "700",
+    label: "الفنون الجميلة",
+  },
+  {
+    value: "800",
+    label: "الآداب",
+  },
+  {
+    value: "900",
+    label: "التاريخ والجغرافيا",
+  },
+];
 interface DataType {
   title: string;
   authorName: string;
@@ -34,6 +76,7 @@ const BooksList: React.FC = () => {
   const [data, setData] = useState<DataType[]>();
   const [total, setTotal] = useState<number>();
   const [filters, setFilters] = useState<{
+    class: string;
     bookName: string;
     authorName: string;
   }>();
@@ -51,7 +94,19 @@ const BooksList: React.FC = () => {
     {
       title: "الرقم",
       dataIndex: "bookID",
-      width: "10%",
+      width: "8%",
+    },
+    {
+      title: "التصنيف",
+      width: "12%",
+      render: (record: any) => {
+        let classNumber: any = record.classNumber / 100;
+        return (
+          <div>
+            {record.classNumber ? bookClassList[classNumber].label : ""}
+          </div>
+        );
+      },
     },
     {
       title: "العنوان",
@@ -119,7 +174,11 @@ const BooksList: React.FC = () => {
     });
   };
 
-  const handleSearchClick = (filters: { bookName: any; authorName: any }) => {
+  const handleSearchClick = (filters: {
+    class: any;
+    bookName: any;
+    authorName: any;
+  }) => {
     setTableParams({
       pagination: {
         current: 1,
@@ -135,10 +194,9 @@ const BooksList: React.FC = () => {
           tableParams?.pagination?.pageSize || 20
         }&offset=${tableParams?.pagination?.current || 1}&bookName=${
           filters?.bookName
-        }&authorName=${filters?.authorName}`,
+        }&authorName=${filters?.authorName}&class=${filters?.class}`,
         {
           method: "GET",
-          // body: JSON.stringify({ title: "React POST Request Example" }),
         }
       )
         .then((res) => res.json())
@@ -146,20 +204,15 @@ const BooksList: React.FC = () => {
           setData(results.result);
           setTotal(results.total);
           console.log(total);
-
-          // setTableParams({
-          //   ...tableParams,
-          //   pagination: {
-          //     ...tableParams.pagination,
-          //     total: results.total,
-          //     // 200 is mock data, you should read it from server
-          //     // total: data.totalCount,
-          //   },
-          // });
         });
     };
     fetchBooks();
-  }, [filters?.bookName, filters?.authorName, tableParams?.pagination]);
+  }, [
+    filters?.bookName,
+    filters?.authorName,
+    filters?.class,
+    tableParams?.pagination,
+  ]);
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
