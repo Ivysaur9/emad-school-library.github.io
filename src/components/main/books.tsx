@@ -296,7 +296,7 @@ const BooksList: React.FC = () => {
         loading={loading}
         onChange={handleTableChange}
         direction="rtl"
-        style={{ margin: "8vh 6vw" }}
+        style={{ margin: "2vh 6vw" }}
       />
       {openBorrowModal && (
         <BorrowModal
