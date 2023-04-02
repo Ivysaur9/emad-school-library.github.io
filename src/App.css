@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Cairo');
+
 .App {
   text-align: center;
 }
@@ -35,4 +37,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+html, body{
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Cairo';
 }

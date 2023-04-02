@@ -5,11 +5,10 @@ import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import type { FilterValue, SorterResult } from "antd/es/table/interface";
 import BookSearch from "./bookSearch";
 import BorrowModal from "./borrowModal";
-
+import { host } from "../../const";
 const { confirm } = Modal;
-const host = "https://emad-library.onrender.com";
-// const host = "http://localhost:5500";
 
+const schoolName = "مكتبة مدرسة عوريف الثانوية للبنين";
 export const bookClassList = [
   {
     value: "000",
@@ -79,6 +78,7 @@ const BooksList: React.FC = () => {
     class: string;
     bookName: string;
     authorName: string;
+    bookID: number;
   }>();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({
@@ -103,7 +103,9 @@ const BooksList: React.FC = () => {
         let classNumber: any = record.classNumber / 100;
         return (
           <div>
-            {record.classNumber ? bookClassList[classNumber].label : ""}
+            {record.classNumber !== null && record.classNumber !== undefined
+              ? bookClassList[classNumber].label
+              : ""}
           </div>
         );
       },
@@ -178,6 +180,7 @@ const BooksList: React.FC = () => {
     class: any;
     bookName: any;
     authorName: any;
+    bookID: any;
   }) => {
     setTableParams({
       pagination: {
@@ -194,7 +197,9 @@ const BooksList: React.FC = () => {
           tableParams?.pagination?.pageSize || 20
         }&offset=${tableParams?.pagination?.current || 1}&bookName=${
           filters?.bookName
-        }&authorName=${filters?.authorName}&class=${filters?.class}`,
+        }&authorName=${filters?.authorName}&class=${filters?.class}&bookID=${
+          filters?.bookID
+        }`,
         {
           method: "GET",
         }
@@ -203,7 +208,6 @@ const BooksList: React.FC = () => {
         .then((results) => {
           setData(results.result);
           setTotal(results.total);
-          console.log(total);
         });
     };
     fetchBooks();
@@ -211,6 +215,7 @@ const BooksList: React.FC = () => {
     filters?.bookName,
     filters?.authorName,
     filters?.class,
+    filters?.bookID,
     tableParams?.pagination,
   ]);
 
@@ -277,15 +282,21 @@ const BooksList: React.FC = () => {
 
   return (
     <>
+      <div className="container">
+        <div className="vertical-center">
+          <h2>{schoolName}</h2>
+        </div>
+      </div>
       <BookSearch handleBookSearch={handleSearchClick} />
       <Table
         columns={columns}
-        rowKey={(record) => record.bookID}
+        rowKey={(record: any) => record._id}
         dataSource={data}
         pagination={{ current: tableParams.pagination.current, total: total }}
         loading={loading}
         onChange={handleTableChange}
         direction="rtl"
+        style={{ margin: "8vh 6vw" }}
       />
       {openBorrowModal && (
         <BorrowModal

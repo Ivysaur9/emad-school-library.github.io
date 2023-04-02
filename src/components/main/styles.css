@@ -1,7 +1,56 @@
+@import url('https://fonts.googleapis.com/css?family=Cairo');
+
 .ant-select{
     width: 100%;
 
 }
 .ant-row{
     padding: 4px;
+}
+
+.container {
+  height: 14vh;
+  position: relative;
+  border-bottom: 12px solid;
+  direction: rtl;
+  
+}
+.ant-table-cell{
+    font-family: 'Cairo';
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  -ms-transform: translateY(-50%) ;
+  transform: translateY(-50%) translateX(50%);
+}
+
+span, input, button, label, p, div, .ant-input{
+    font-family: 'Cairo';
+}
+
+@media only screen and (max-width: 700px) {
+  h2 {
+    background-color: lightblue;
+    font-size: 16px;
+  }
+  .container {
+  height: 10vh;
+  border-bottom: 8px solid;
+  
+}
+}
+
+@media only screen and (max-width: 450px) {
+  .vertical-center{
+      position: initial;
+      transform: none;
+  }
+  .container {
+  height: 8vh;
+  border-bottom: 8px solid;
+}
 }

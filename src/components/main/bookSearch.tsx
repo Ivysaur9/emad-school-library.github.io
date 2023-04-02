@@ -5,6 +5,7 @@ import "./styles.css";
 
 export default function BookSearch({ handleBookSearch }: any) {
   const [state, setState] = React.useState({
+    bookID: null,
     class: "",
     bookName: "",
     authorName: "",
@@ -26,8 +27,8 @@ export default function BookSearch({ handleBookSearch }: any) {
   }
 
   return (
-    <Row dir="rtl" style={{ marginBottom: "12px" }}>
-      <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+    <Row dir="rtl" style={{ margin: "12px 6vw" }}>
+      <Col xs={24} sm={12} md={8} lg={6} xl={4}>
         <Row>
           <label style={{ alignSelf: "center" }}>التصنيف</label>
         </Row>
@@ -41,11 +42,26 @@ export default function BookSearch({ handleBookSearch }: any) {
               }
             }
             onChange={handleClassChange}
-            options={bookClassList}
+            options={[{ label: "غير مصنف", value: "none" }, ...bookClassList]}
+            value={state.class}
           />
         </Row>
       </Col>
-      <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+      <Col xs={24} sm={12} md={8} lg={6} xl={4}>
+        <Row>
+          <label style={{ alignSelf: "center" }}>رقم الكتاب</label>
+        </Row>
+        <Row>
+          <Input
+            placeholder="أدخل رقم الكتاب"
+            // style={{ width: "20%", margin: "8px 4px 8px 16px" }}
+            name="bookID"
+            value={state.bookID}
+            onChange={handleChange}
+          />
+        </Row>
+      </Col>
+      <Col xs={24} sm={12} md={8} lg={6} xl={4}>
         <Row>
           <label style={{ alignSelf: "center" }}>اسم الكتاب</label>
         </Row>
@@ -59,7 +75,7 @@ export default function BookSearch({ handleBookSearch }: any) {
           />
         </Row>
       </Col>
-      <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+      <Col xs={24} sm={12} md={8} lg={6} xl={4}>
         <Row>
           <label style={{ alignSelf: "center" }}>اسم المؤلف</label>
         </Row>
@@ -89,6 +105,7 @@ export default function BookSearch({ handleBookSearch }: any) {
             class: state.class,
             bookName: state.bookName,
             authorName: state.authorName,
+            bookID: state.bookID,
           });
         }}
       >
@@ -106,12 +123,19 @@ export default function BookSearch({ handleBookSearch }: any) {
           // borderColor: "red",
           // cursor: "pointer",
         }}
-        disabled={state.authorName === "" && state.bookName === ""}
+        disabled={
+          state.authorName === "" &&
+          state.bookName === "" &&
+          state.class === "" &&
+          state.bookID === null
+        }
         onClick={() => {
-          setState({ bookName: "", authorName: "", class: "" });
+          setState({ bookName: "", authorName: "", class: "", bookID: null });
           handleBookSearch({
             bookName: "",
             authorName: "",
+            class: "",
+            bookID: null,
           });
         }}
       >

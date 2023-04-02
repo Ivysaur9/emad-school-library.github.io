@@ -28,7 +28,7 @@ function App() {
         <Route
           path="/"
           element={
-            <div style={{ margin: "8vh 6vw" }}>
+            <div>
               <BooksList />
             </div>
           }
@@ -36,7 +36,7 @@ function App() {
         <Route
           path="/booksList/"
           element={
-            <div style={{ margin: "8vh 6vw" }}>
+            <div>
               <BooksList />
             </div>
           }
@@ -44,7 +44,7 @@ function App() {
         <Route
           path="/school-library"
           element={
-            <div style={{ margin: "8vh 6vw" }}>
+            <div>
               <BooksList />
             </div>
           }
